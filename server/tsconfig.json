@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+		"lib": ["ESNext"],
+    "target": "ES2018",
+    "module": "CommonJS",
+    "strict": true,
+    "rootDir": "./",
+    "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"], 
+    "types": ["node", "express"]
+  }
+}

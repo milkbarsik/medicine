@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from 'dotenv';
 import cors from 'cors';
+import router from "./src/router/router";
+import errorMiddleware from "./src/middlewares/errorMiddleware";
 
 dotenv.config();
 
@@ -13,10 +15,10 @@ app.use(cors({
 	origin: 'http://localhost:5173',
 	credentials: true
 }))
-// app.use('/api', router);
+app.use('/api', router);
 
 
-// app.use(((errorMiddleware as unknown) as express.ErrorRequestHandler));
+app.use(((errorMiddleware as unknown) as express.ErrorRequestHandler));
 
 
 app.listen(PORT, () => {

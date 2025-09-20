@@ -1,0 +1,9 @@
+export type Disease = {
+	id: number;
+	title: string;
+};
+
+export interface IDiseaseService {
+	getDisease (): Promise<Disease[]>;
+	postDisease (disease: Disease): Promise<Disease>;
+}

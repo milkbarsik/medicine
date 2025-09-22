@@ -26,7 +26,7 @@ export function useFetch (foo: () => Promise<any>): UseFetchReturn {
 				setError({message: e.message, status: undefined});
 			}
 			if (e instanceof AxiosError) {
-				setError({message: e.message, status: e.response?.status});
+				setError({message: e.response?.data.message, status: e.response?.status});
 			}
 		} finally {
 			setIsLoading(false);

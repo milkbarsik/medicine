@@ -31,7 +31,7 @@ class MedicineService implements IMedicineService {
 };
 
 class ReceptionService implements IReceptionService {
-	async postReception(reception: IReceptionOnPost): Promise<IReception> {
+	async postReception(reception: Omit<IReceptionOnPost, 'id'>): Promise<IReception> {
 		const res = await $authClient.post('reseptions', reception);
 		return res.data;
 	};
@@ -52,5 +52,5 @@ class SicksService implements ISicksService {
 
 export const diseaseService = new DiseaseService();
 export const medicineService = new MedicineService();
-export const reseptionService = new ReceptionService();
+export const receptionService = new ReceptionService();
 export const sicksService = new SicksService();

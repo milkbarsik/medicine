@@ -5,5 +5,5 @@ export type Disease = {
 
 export interface IDiseaseService {
 	getDisease (): Promise<Disease[]>;
-	postDisease (disease: Disease): Promise<Disease>;
+	postDisease (disease: Omit<Disease, 'id'>): Promise<Disease>;
 }

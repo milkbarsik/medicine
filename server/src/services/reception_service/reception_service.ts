@@ -6,7 +6,8 @@ class ReceptionServece implements IReceptionService {
 
 	async postReception (reception: IReceptionOnPost): Promise<IReception> {
 		const disease = await db.query('select * from disease where id = $1', [reception.disease_id]);
-		if (!disease) {
+		console.log(disease.rows[0])
+		if (disease.rows[0] === undefined) {
 			throw ApiError.NotFound('No disease found');
 		}
 		const medicine = await db.query('select * from medicines where id = $1', [reception.medicine_id]);

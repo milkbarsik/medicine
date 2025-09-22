@@ -2,6 +2,6 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	overflow-y: scroll;
-	height: 100%;
+	overflow-y: auto;
+	max-height: calc(100vh - 20rem);
 }

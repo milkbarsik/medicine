@@ -8,7 +8,7 @@ export interface IReception {
 	description?: string;
 }
 
-export interface IReceptionOnPost extends IReception {
+export interface IReceptionOnPost extends Omit<IReception, 'id'> {
 	disease_id: number;
 	medicine_id: number;
 	prescription_description?: string;

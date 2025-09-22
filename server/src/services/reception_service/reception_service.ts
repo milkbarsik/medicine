@@ -6,7 +6,6 @@ class ReceptionServece implements IReceptionService {
 
 	async postReception (reception: IReceptionOnPost): Promise<IReception> {
 		const disease = await db.query('select * from disease where id = $1', [reception.disease_id]);
-		console.log(disease.rows[0])
 		if (disease.rows[0] === undefined) {
 			throw ApiError.NotFound('No disease found');
 		}
@@ -31,23 +30,23 @@ class ReceptionServece implements IReceptionService {
     SELECT id FROM ins_reception;
   `;
 
-  const params = [
-    reception.doctor_id,
-    reception.patient_id,
-    reception.date,          // Date или ISO → timestamptz
-    reception.place,
-    reception.symptoms ?? null,
-    reception.description ?? null,
-    reception.disease_id,
-    reception.medicine_id,
-    reception.prescription_description ?? null, // если нет — передай null
-  ];
-		const newReception = await db.query(sql, params);
-		if (!newReception) {
+		const params = [
+			reception.doctor_id,
+			reception.patient_id,
+			reception.date,          // Date или ISO → timestamptz
+			reception.place,
+			reception.symptoms ?? null,
+			reception.description ?? null,
+			reception.disease_id,
+			reception.medicine_id,
+			reception.prescription_description ?? null, // если нет — передай null
+		];
+		try {
+			const newReception = await db.query(sql, params);
+			return newReception.rows[0];
+		} catch (e) {
 			throw ApiError.BadRequest('Reception not created');
 		}
-		console.log(newReception.rows);
-		return newReception.rows[0];
 	}
 }
 

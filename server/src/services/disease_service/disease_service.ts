@@ -5,23 +5,22 @@ class DiseaseService implements IDiseaseService {
 
 	async getDisease() {
 		const disease = await db.query('select * from disease');
-		if (!disease) {
+		if (disease.rows[0] === undefined) {
 			throw new Error('No disease found');
 		}
-		console.log(disease.rows);
 		return disease.rows;
 	};
 
 	async postDisease(disease: Disease) {
-		const newDisease = await db.query(
-			'insert into disease (title) values ($1) returning *',
-			[disease.title]
-		);
-		if (!newDisease) {
+		try {
+			const newDisease = await db.query(
+				'insert into disease (title) values ($1) returning *',
+				[disease.title]
+			);
+			return newDisease.rows[0];
+		} catch (e) {
 			throw new Error('Disease not created');
 		}
-		console.log(newDisease.rows);
-		return newDisease.rows[0];
 	};
 }
 

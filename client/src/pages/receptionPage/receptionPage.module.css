@@ -16,6 +16,9 @@
 	align-items: flex-start;
 	gap: 2rem;
 	max-width: 70%;
+	overflow-y: auto;
+	max-height: calc(100vh - 25rem);
+	padding-right: 0.5rem;
 }
 
 .main label {

@@ -3,47 +3,39 @@ import styles from './receptionPage.module.css';
 import { useFetch } from '../../hooks/useFetch';
 import { useMedicinesStore } from '../../store/medicinesStore';
 import { useDiseasesStore } from '../../store/diseasesStore';
-import useInput from '../../hooks/useInput';
 import { receptionService } from '../../api/services';
+import { useReceptionStore } from '../../store/receptionStore';
 
 const ReceptionPage = () => {
 
-	const patientId = useInput('');
-	const doctorId = useInput('');
-	const date = useInput('');
-	const address = useInput('');
-	const symptoms = useInput('');
-	const disease = useInput('');
-	const description = useInput('');
-	const medicine = useInput('');
-
 	const {medicines} = useMedicinesStore();
 	const {diseases} = useDiseasesStore();
+	const {reception, setKeyOFReception,resetReception} = useReceptionStore();
 
 	const validate = () => {
 
-		if (!patientId.value) {
+		if (!reception.patient_id) {
 			throw new Error('Введите номер пациента');
 		};
-		if (!doctorId.value) {
+		if (!reception.doctor_id) {
 			throw new Error('Введите номер врача');
 		};
-		if (!date.value) {
+		if (!reception.date) {
 			throw new Error('Введите дату приема');
 		};
-		if (!address.value) {
+		if (!reception.place) {
 			throw new Error('Введите адрес приема');
 		};
-		if (!disease.value) {
+		if (!reception.disease) {
 			throw new Error('Введите диагноз');
 		};
-		if (!medicine.value) {
+		if (!reception.medicine) {
 			throw new Error('Введите лекарство');
 		};
-		if (!diseases.find(d => d.title === disease.value)) {
+		if (!diseases.find(d => d.title === reception.disease)) {
 			throw new Error('Такого диагноза нет в базе');
 		}
-		if (!medicines.find(m => m.title === medicine.value)) {
+		if (!medicines.find(m => m.title === reception.medicine)) {
 			throw new Error('Такого лекарства нет в базе');
 		}
 		return true;
@@ -52,28 +44,17 @@ const ReceptionPage = () => {
 	const {fetching, isLoading, error} = useFetch( async () => {
 		validate();
 		const res = await receptionService.postReception({
-			patient_id: Number(patientId.value),
-			doctor_id: Number(doctorId.value),
-			date: date.value,
-			place: address.value,
-			symptoms: symptoms.value,
-			description: description.value,
-			disease_id: diseases.find(d => d.title === disease.value)?.id || 0,
-			medicine_id: medicines.find(m => m.title === medicine.value)?.id || 0,
-			prescription_description: '',
+			...reception,
+			medicine_id: medicines.find(m => m.title === reception.medicine)?.id || 0,
+			disease_id: diseases.find(d => d.title === reception.disease)?.id || 0,
 		});
-		console.log(res);
+		if (res) {
+			resetReception();
+		}
 	});
 
 	const cancelReception = () => {
-		patientId.onChange({target: {value: ''}} as React.ChangeEvent<HTMLInputElement>);
-		doctorId.onChange({target: {value: ''}} as React.ChangeEvent<HTMLInputElement>);
-		date.onChange({target: {value: ''}} as React.ChangeEvent<HTMLInputElement>);
-		address.onChange({target: {value: ''}} as React.ChangeEvent<HTMLInputElement>);
-		symptoms.onChange({target: {value: ''}} as React.ChangeEvent<HTMLInputElement>);
-		disease.onChange({target: {value: ''}} as React.ChangeEvent<HTMLInputElement>);
-		description.onChange({target: {value: ''}} as React.ChangeEvent<HTMLInputElement>);
-		medicine.onChange({target: {value: ''}} as React.ChangeEvent<HTMLInputElement>);
+		resetReception();
 	};
 
 	return (
@@ -82,35 +63,35 @@ const ReceptionPage = () => {
 			<main className={styles.main}>
 				<label htmlFor="patien_id">
 					номер пациента:
-					<MyInput id="patien_id" name="patien_id" type="text" {...patientId}/>
+					<MyInput id="patien_id" name="patien_id" type="text" value={reception?.patient_id || ''} onChange={(e) => setKeyOFReception('patient_id', e.target.value)}/>
 				</label>
 				<label htmlFor="doctor_id">
 					номер врача:
-					<MyInput id="doctor_id" name="doctor_id" type="text" {...doctorId}/>
+					<MyInput id="doctor_id" name="doctor_id" type="text" value={reception?.doctor_id || ''} onChange={(e) => setKeyOFReception('doctor_id', e.target.value)}/>
 				</label>
 				<label htmlFor="date">
 					дата приема:
-					<MyInput id="date" name="date" type="date" {...date}/>
+					<MyInput id="date" name="date" type="date" value={reception.date} onChange={(e) => setKeyOFReception('date', e.target.value)}/>
 				</label>
-				<label htmlFor="address">
+				<label htmlFor="place">
 					адрес приема:
-					<MyInput id="address" name="address" type="text" {...address}/>
+					<MyInput id="place" name="place" type="text" value={reception.place} onChange={(e) => setKeyOFReception('place', e.target.value)}/>
 				</label>
 				<label htmlFor="sympthoms">
 					симптомы:
-					<MyInput id="sympthoms" name="sympthoms" type="text" {...symptoms}/>
+					<MyInput id="sympthoms" name="sympthoms" type="text" value={reception.symptoms} onChange={(e) => setKeyOFReception('symptoms', e.target.value)}/>
 				</label>
 				<label htmlFor="disease">
 					диагноз:
-					<MyInput id="disease" name="disease" type="text" {...disease}/>
+					<MyInput id="disease" name="disease" type="text" value={reception.disease} onChange={(e) => setKeyOFReception('disease', e.target.value)}/>
 				</label>
 				<label htmlFor="description">
 					описание:
-					<MyInput id="description" name="description" type="text" {...description}/>
+					<MyInput id="description" name="description" type="text" value={reception.description} onChange={(e) => setKeyOFReception('description', e.target.value)}/>
 				</label>
 				<label htmlFor="medicine">
 					лекарство:
-					<MyInput id="medicine" name="medicine" type="text" {...medicine}/>
+					<MyInput id="medicine" name="medicine" type="text" value={reception.medicine} onChange={(e) => setKeyOFReception('medicine', e.target.value)}/>
 				</label>
 				<button onClick={() => {fetching()}}>Записать прием</button>
 				<button onClick={() => {cancelReception()}}>Отменить прием</button>

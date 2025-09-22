@@ -6,8 +6,9 @@ const errorMiddleware = (err: any, req: Request, res: Response, next: NextFuncti
 
 	if(err instanceof ApiError) {
 		return res.status(err.status).json({message: err.message, errors: err.errors});
+	} else if (err instanceof Error) {
+		return res.status(500).json({message: err.message});
 	}
-
 	return res.status(500).json({message: 'Error...'})
 }
 

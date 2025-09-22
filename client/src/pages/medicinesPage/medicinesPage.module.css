@@ -16,4 +16,5 @@
 .wrapper section:first-child {
 	width: fit-content;
 	max-width: 30%;
+	min-width: min-content;
 }

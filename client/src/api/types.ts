@@ -28,8 +28,8 @@ export interface IMedicineService {
 
 export interface IReception {
 	id: number;
-	doctor_id: number;
-	patient_id: number;
+	doctor_id: number | null;
+	patient_id: number | null;
 	date: string;
 	place: string;
 	symptoms: string;

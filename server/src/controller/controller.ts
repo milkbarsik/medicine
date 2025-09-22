@@ -1,8 +1,10 @@
 import { NextFunction, Request } from "express";
 import disease_service from "../services/disease_service/disease_service";
-import { IgetDiseaseResponse, IgetMedicineResponse, IgetOneMedicineRequest, IgetOneMedicineResponse, IgetSicksOfDateRequest, IgetSicksOFDateResponse, IgetSicksOfDiseaseRequest, IgetSicksOFDiseaseResponse, IpostDiseaseRequest, IpostDiseaseResponse, IpostMedicineRequest, IpostMedicineResponse } from "./controllerTypes";
+import { IgetDiseaseResponse, IgetMedicineResponse, IgetOneMedicineRequest, IgetOneMedicineResponse, IgetSicksOfDateRequest, IgetSicksOFDateResponse, IgetSicksOfDiseaseRequest, IgetSicksOFDiseaseResponse, IpostDiseaseRequest, IpostDiseaseResponse, IpostMedicineRequest, IpostMedicineResponse, IpostReceptionRequest, IpostReceptionResponse } from "./controllerTypes";
 import medicine_service from "../services/medicine_service/medicine_service";
 import sicks_service from "../services/sicks_service/sicks_service";
+import { toMskDateYYYYMMDD } from "../helpers/formatDate";
+import reseption_service from "../services/reception_service/reception_service";
 
 class Controller {
 	
@@ -37,7 +39,8 @@ class Controller {
 	async getSicksOfDate (req: IgetSicksOfDateRequest, res: IgetSicksOFDateResponse, next: NextFunction) {
 		try {
 			const {date} = req.params;
-			const sicks = await sicks_service.getSicksOfDate(date);
+			const formatDate = toMskDateYYYYMMDD(date);
+			const sicks = await sicks_service.getSicksOfDate(formatDate);
 			return res.status(200).json(sicks);
 		} catch (e) {
 			next(e);
@@ -74,11 +77,13 @@ class Controller {
 		}
 	};
 
-	async postReseption () {
+	async postReseption (req: IpostReceptionRequest, res: IpostReceptionResponse, next: NextFunction) {
 		try {
-
+			const reseption = req.body;
+			const newReseption = await reseption_service.postReception(reseption);
+			return res.status(200).json(newReseption);
 		} catch (e) {
-
+			next(e);
 		}
 	};
 }

@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import { Disease } from "../services/disease_service/disease_types";
 import { Medicine } from "../services/medicine_service/medicine_types";
 import { Sick } from "../services/sicks_service/sicks_types";
+import { IReception, IReceptionOnPost } from '../services/reception_service/reception_types';
 
 export interface IgetDiseaseResponse extends Response<Disease[]> {};
 
@@ -22,3 +23,5 @@ export interface IpostMedicineResponse extends Response<Medicine>{};
 export interface IpostDiseaseRequest extends Request<{}, {}, Disease>{};
 export interface IpostDiseaseResponse extends Response<Disease>{};
 
+export interface IpostReceptionRequest extends Request<{}, {}, IReceptionOnPost>{};
+export interface IpostReceptionResponse extends Response<IReception>{};

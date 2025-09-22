@@ -1,0 +1,44 @@
+.wrapper {
+	padding: 0 15%;
+}
+
+.textContainer {
+	margin: 15rem 0;
+	text-align: center;
+}
+
+.mainBlock {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.dataBlock {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	justify-content: center;
+}
+
+.label {
+	font-size: 1.25rem;
+	font-weight: 500;
+}
+
+.inputBlock {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 2rem;
+	font-size: 1.5rem;
+}
+
+.result {
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: #646cff;
+}
+
+.error {
+	color: red;
+}

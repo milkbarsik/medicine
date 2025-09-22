@@ -7,7 +7,7 @@ class DiseaseService implements IDiseaseService {
 		return res.data;
 	};
 
-	async postDisease(disease: Disease): Promise<Disease> {
+	async postDisease(disease: Omit<Disease, 'id'>): Promise<Disease> {
 		const res = await $authClient.post('disease', disease);
 		return res.data;
 	};

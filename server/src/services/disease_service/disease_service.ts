@@ -14,7 +14,7 @@ class DiseaseService implements IDiseaseService {
 
 	async postDisease(disease: Disease) {
 		const newDisease = await db.query(
-			'insert into diseases (title) values ($1) returning *',
+			'insert into disease (title) values ($1) returning *',
 			[disease.title]
 		);
 		if (!newDisease) {

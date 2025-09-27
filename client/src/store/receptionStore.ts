@@ -2,13 +2,14 @@ import { create } from "zustand";
 
 export type Reception = {
 	patient_id: number | null;
-	doctor_id: number | null;
+	patient_name: string;
 	date: string;
 	place: string;
-	symptoms: string;
+	symptoms?: string;
 	disease: string;
-	description: string;
+	description?: string;
 	medicine: string;
+	prescription_description?: string;
 };
 
 export interface IReceptionState {
@@ -22,18 +23,15 @@ export interface IReceptionState {
 export const useReceptionStore = create<IReceptionState>((set, get) => ({
 	reception: {
 		patient_id: null,
-		doctor_id: null,
+		patient_name: '',
 		date: '',
 		place: '',
-		symptoms: '',
 		disease: '',
-		description: '',
-		medicine: ''
+		medicine: '',
 	},
 
 	setKeyOFReception: (key: string, value: string) => {
 		set((state) => ({reception: {...state.reception, [key]: value}}));
-		console.log(get().reception);
 	},
 
 	setReception: (reception: Reception) => {
@@ -41,16 +39,16 @@ export const useReceptionStore = create<IReceptionState>((set, get) => ({
 	},
 
 	resetReception: () => {
-		set({ reception: {
-			patient_id: null,
-			doctor_id: null,
-			date: '',
-			place: '',
-			symptoms: '',
-			disease: '',
-			description: '',
-			medicine: ''
-		}});
+		set((state) => ({...state,
+			reception: {
+				patient_id: null,
+				patient_name: '',
+				date: '',
+				place: '',
+				disease: '',
+				medicine: ''
+			}
+		}));
 	},
 
 	getReception: () => {

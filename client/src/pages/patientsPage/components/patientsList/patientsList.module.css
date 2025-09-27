@@ -1,0 +1,9 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: calc(100vh - 20rem);
+	padding-right: 0.5rem;
+}

@@ -1,5 +1,6 @@
+import type { AxiosResponse } from "axios";
 import { $authClient } from "./axios";
-import type { Disease, IDiseaseService, IMedicineService, IReception, IReceptionOnPost, IReceptionService, ISicksService, Medicine, Sick } from "./types";
+import type { Disease, IAuthUser, IDiseaseService, IMedicineService, IPatientsService, IReception, IReceptionOnPost, IReceptionService, ISicksService, IUserData, Medicine, Patient, Sick } from "./types";
 
 class DiseaseService implements IDiseaseService {
 	async getDiseases(): Promise<Disease[]> {
@@ -49,8 +50,44 @@ class SicksService implements ISicksService {
 	};
 };
 
+class PatientsService implements IPatientsService {
+	async getPatients(): Promise<Patient[]> {
+		const res = await $authClient.get('patients');
+		return res.data;
+	};
+
+	async getOnePatient(id: number): Promise<Patient | null> {
+		const res = await $authClient.get(`patients/${id}`);
+		return res.data;
+	};
+
+	async postPatients(patients: Omit<Patient, 'id'>): Promise<Patient> {
+		const res = await $authClient.post('patients', patients);
+		return res.data;
+	};
+};
+
+class AuthUser implements IAuthUser {
+	
+	async login (login: string, password: string): Promise<IUserData> {
+		const res: AxiosResponse<IUserData> = await $authClient.post('/login', {login, password});
+		return res.data;
+	}
+
+	async logOut (): Promise<void> {
+		await $authClient.post('/logout');
+	}
+
+	async refresh (): Promise<AxiosResponse<IUserData>> {
+		const res: AxiosResponse<IUserData> = await $authClient.post(`/refresh`);
+		return res;
+	}
+}
+
 
 export const diseaseService = new DiseaseService();
 export const medicineService = new MedicineService();
 export const receptionService = new ReceptionService();
 export const sicksService = new SicksService();
+export const patientsService = new PatientsService();
+export const authUser = new AuthUser();

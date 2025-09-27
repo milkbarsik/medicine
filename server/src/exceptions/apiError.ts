@@ -13,11 +13,18 @@ class ApiError extends Error {
 	}
 
 	static BadDate (message: string, errors: Error[] = []) {
-		return new ApiError(400, message, errors);
+		return new ApiError(422, message, errors);
 	}
 
 	static NotFound (message: string, errors: Error[] = []) {
 		return new ApiError(404, message, errors);
+	}
+	static unauthorizedError() {
+		return new ApiError(401, 'Пользователь не авторизован');
+	}
+
+	static incorrectLogin () {
+		return new ApiError(422, 'Неверный логин или пароль')
 	}
 }
 

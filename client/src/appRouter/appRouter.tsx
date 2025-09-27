@@ -1,8 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { routes } from "./routes"
+import { Authroutes, notAuthRoutes } from "./routes"
+import { useAuth } from "../store/userStore"
 
 
 const AppRouter = ({isLoading}: {isLoading: boolean}) => {
+
+	const {isAuth} = useAuth();
 
 	if (isLoading) {
 		return <h1>Loading...</h1>
@@ -10,9 +13,15 @@ const AppRouter = ({isLoading}: {isLoading: boolean}) => {
 
 	return(
 		<Routes>
-			{routes.map(({Path, Component}) => (
+			{isAuth && Authroutes.map(({Path, Component}) => (
 				<Route key={Path} path={Path} element={<Component />} />
 			))}
+			{!isAuth && notAuthRoutes.map(({Path, Component}) => (
+				<Route key={Path} path={Path} element={<Component />} />
+			))}
+			{!isAuth &&
+					<Route path='*' element={<Navigate to="/auth" />} />
+			}
 			<Route path={'*'} element={<Navigate to='/'/>} />
 		</Routes>
 	)

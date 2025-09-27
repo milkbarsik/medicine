@@ -4,11 +4,12 @@ import { Disease, IDiseaseService } from './disease_types';
 class DiseaseService implements IDiseaseService {
 
 	async getDisease() {
-		const disease = await db.query('select * from disease');
-		if (disease.rows[0] === undefined) {
-			throw new Error('No disease found');
+		try {
+			const disease = await db.query('select * from disease');
+			return disease.rows;
+		} catch (e) {
+			throw new Error('Disease not found')
 		}
-		return disease.rows;
 	};
 
 	async postDisease(disease: Disease) {

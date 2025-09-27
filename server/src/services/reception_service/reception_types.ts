@@ -2,9 +2,10 @@ export interface IReception {
 	id: number;
 	doctor_id: number;
 	patient_id: number;
+	patient_name: string;
 	date: string;
 	place: string;
-	symptoms: string;
+	symptoms?: string;
 	description?: string;
 }
 

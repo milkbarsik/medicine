@@ -5,20 +5,22 @@ import { useMedicinesStore } from '../../store/medicinesStore';
 import { useDiseasesStore } from '../../store/diseasesStore';
 import { receptionService } from '../../api/services';
 import { useReceptionStore } from '../../store/receptionStore';
+import { useAuth } from '../../store/userStore';
 
 const ReceptionPage = () => {
 
 	const {medicines} = useMedicinesStore();
 	const {diseases} = useDiseasesStore();
 	const {reception, setKeyOFReception,resetReception} = useReceptionStore();
+	const {user} = useAuth();
 
 	const validate = () => {
 
 		if (!reception.patient_id) {
 			throw new Error('Введите номер пациента');
 		};
-		if (!reception.doctor_id) {
-			throw new Error('Введите номер врача');
+		if (!reception.patient_name) {
+			throw new Error('Введите имя пациента');
 		};
 		if (!reception.date) {
 			throw new Error('Введите дату приема');
@@ -47,6 +49,7 @@ const ReceptionPage = () => {
 			...reception,
 			medicine_id: medicines.find(m => m.title === reception.medicine)?.id || 0,
 			disease_id: diseases.find(d => d.title === reception.disease)?.id || 0,
+			doctor_id: user!.id,
 		});
 		if (res) {
 			resetReception();
@@ -61,40 +64,53 @@ const ReceptionPage = () => {
 		<div className={styles.wrapper}>
 			<h2>Прием пациента</h2>
 			<main className={styles.main}>
-				<label htmlFor="patien_id">
-					номер пациента:
-					<MyInput id="patien_id" name="patien_id" type="text" value={reception?.patient_id || ''} onChange={(e) => setKeyOFReception('patient_id', e.target.value)}/>
-				</label>
-				<label htmlFor="doctor_id">
-					номер врача:
-					<MyInput id="doctor_id" name="doctor_id" type="text" value={reception?.doctor_id || ''} onChange={(e) => setKeyOFReception('doctor_id', e.target.value)}/>
-				</label>
-				<label htmlFor="date">
-					дата приема:
-					<MyInput id="date" name="date" type="date" value={reception.date} onChange={(e) => setKeyOFReception('date', e.target.value)}/>
-				</label>
-				<label htmlFor="place">
-					адрес приема:
-					<MyInput id="place" name="place" type="text" value={reception.place} onChange={(e) => setKeyOFReception('place', e.target.value)}/>
-				</label>
-				<label htmlFor="sympthoms">
-					симптомы:
-					<MyInput id="sympthoms" name="sympthoms" type="text" value={reception.symptoms} onChange={(e) => setKeyOFReception('symptoms', e.target.value)}/>
-				</label>
-				<label htmlFor="disease">
-					диагноз:
-					<MyInput id="disease" name="disease" type="text" value={reception.disease} onChange={(e) => setKeyOFReception('disease', e.target.value)}/>
-				</label>
-				<label htmlFor="description">
-					описание:
-					<MyInput id="description" name="description" type="text" value={reception.description} onChange={(e) => setKeyOFReception('description', e.target.value)}/>
-				</label>
-				<label htmlFor="medicine">
-					лекарство:
-					<MyInput id="medicine" name="medicine" type="text" value={reception.medicine} onChange={(e) => setKeyOFReception('medicine', e.target.value)}/>
-				</label>
-				<button onClick={() => {fetching()}}>Записать прием</button>
-				<button onClick={() => {cancelReception()}}>Отменить прием</button>
+				<div className={styles.form}>
+					<div className={styles.infoBlock}>
+						<label htmlFor="patien_id">
+							номер пациента:
+							<MyInput id="patien_id" name="patien_id" type="text" value={reception?.patient_id || ''} onChange={(e) => setKeyOFReception('patient_id', e.target.value)}/>
+						</label>
+						<label htmlFor="patient_name">
+							имя пациента:
+							<MyInput id="patient_name" name="patient_name" type="text" value={reception.patient_name} onChange={(e) => setKeyOFReception('patient_name', e.target.value)}/>
+						</label>
+						<label htmlFor="date">
+							дата приема:
+							<MyInput id="date" name="date" type="date" value={reception.date} onChange={(e) => setKeyOFReception('date', e.target.value)}/>
+						</label>
+						<label htmlFor="place">
+							адрес приема:
+							<MyInput id="place" name="place" type="text" value={reception.place} onChange={(e) => setKeyOFReception('place', e.target.value)}/>
+						</label>
+					</div>
+
+					<div className={styles.infoBlock}>
+						<label htmlFor="sympthoms">
+							симптомы:
+							<MyInput id="sympthoms" name="sympthoms" type="text" value={reception?.symptoms || ''} onChange={(e) => setKeyOFReception('symptoms', e.target.value)}/>
+						</label>
+						<label htmlFor="disease">
+							диагноз:
+							<MyInput id="disease" name="disease" type="text" value={reception.disease} onChange={(e) => setKeyOFReception('disease', e.target.value)}/>
+						</label>
+						<label htmlFor="description">
+							описание:
+							<MyInput id="description" name="description" type="text" value={reception?.description || ''} onChange={(e) => setKeyOFReception('description', e.target.value)}/>
+						</label>
+						<label htmlFor="medicine">
+							лекарство:
+							<MyInput id="medicine" name="medicine" type="text" value={reception.medicine} onChange={(e) => setKeyOFReception('medicine', e.target.value)}/>
+						</label>
+						<label htmlFor="prescription_description">
+							Применение:
+							<MyInput id="prescription_description" name="prescription_description" type="text" value={reception?.prescription_description || ''} onChange={(e) => setKeyOFReception('prescription_description', e.target.value)}/>
+						</label>
+					</div>
+				</div>
+				<div className={styles.buttons}>
+					<button onClick={() => {cancelReception()}}>Отменить прием</button>
+					<button onClick={() => {fetching()}}>Записать прием</button>
+				</div>
 			</main>
 			<p className='error'>{!isLoading && error.message !== '' && error.message}</p>
 		</div>

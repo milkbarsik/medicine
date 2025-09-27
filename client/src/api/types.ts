@@ -1,3 +1,5 @@
+import type { AxiosResponse } from "axios";
+
 export type Disease = {
 	id: number;
 	title: string;
@@ -32,7 +34,7 @@ export interface IReception {
 	patient_id: number | null;
 	date: string;
 	place: string;
-	symptoms: string;
+	symptoms?: string;
 	description?: string;
 }
 
@@ -61,4 +63,44 @@ export type Sick = {
 export interface ISicksService {
 	getSicksOfDisease (disease_id: number): Promise<Sick[]>;
 	getSicksOfDate (date: string): Promise<Sick[]>;
+}
+
+
+
+export type Patient = {
+	id: number;
+	first_name: string;
+	middle_name: string;
+	last_name: string;
+	gender: 'male'|'female'| 'other';
+	birthday: string;
+	address: string;
+};
+
+export interface IPatientsService {
+	getPatients (): Promise<Patient[]>;
+	getOnePatient (id: number): Promise<Patient | null>;
+	postPatients (patients: Omit<Patient, 'id'>): Promise<Patient>;
+}
+
+
+
+export type TUser = {
+	id: number;
+	login: string;
+	first_name: string;
+	middle_name: string;
+	last_name: string;
+}
+
+export interface IUserData {
+	accessToken: string;
+	refresHtoken: string;
+	user: TUser;
+}
+
+export interface IAuthUser {
+	login: (login: string, password: string) => Promise<IUserData>;
+	logOut: () => Promise<void>;
+	refresh: () => Promise<AxiosResponse<IUserData>>;
 }

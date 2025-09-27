@@ -1,6 +1,7 @@
 import { IMedicineService, Medicine } from "./medicine_types";
 import db from '../../../db';
 import { DatabaseError } from "pg";
+import ApiError from "../../exceptions/apiError";
 
 class MedicineService implements IMedicineService {
 
@@ -9,16 +10,19 @@ class MedicineService implements IMedicineService {
 			const medicines = await db.query('select * from medicines');
 			return medicines.rows;
 		} catch (e) {
-			throw new Error('No medicines found');
+			throw new Error('Medicines no found');
 		}
 	};
 
 	async getOneMedicine(id: number) {
 		try {
 			const medicine = await db.query('select * from medicines where id = $1', [id]);
+			if (medicine.rows[0] === undefined) {
+				throw ApiError.NotFound('No medicine found')
+			}
 			return medicine.rows[0];
 		} catch (e) {
-			throw new Error('No medicine found');
+			throw new Error('Medicine not found');
 		}
 	};
 

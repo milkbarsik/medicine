@@ -12,9 +12,18 @@
 
 CREATE TABLE doctors (
   id          BIGSERIAL PRIMARY KEY,
+	"login"     TEXT UNIQUE NOT NULL,
+	"password"  TEXT        NOT NULL,
   first_name  TEXT        NOT NULL,
   middle_name TEXT,
   last_name   TEXT        NOT NULL
+);
+
+CREATE TABLE tokens (
+	id SERIAL PRIMARY KEY,
+	doctor_id INT NOT NULL,
+	refresh_token TEXT UNIQUE NOT NULL,
+	FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
 );
 
 CREATE TABLE patients (
@@ -45,13 +54,14 @@ CREATE TABLE medicines (
 -- ====== Факты приёмов ======
 
 CREATE TABLE receptions (
-  id         BIGSERIAL PRIMARY KEY,
-  doctor_id  BIGINT NOT NULL REFERENCES doctors(id)  ON UPDATE CASCADE,
-  patient_id BIGINT NOT NULL REFERENCES patients(id) ON UPDATE CASCADE,
-  "date"     TIMESTAMPTZ NOT NULL,  -- дата/время приёма
-  place      TEXT        NOT NULL,  -- место (кабинет/домашний визит)
-  symptoms   TEXT,                  -- жалобы/симптомы
-  description TEXT                  -- примечания врача
+  id           BIGSERIAL PRIMARY KEY,
+  doctor_id    BIGINT NOT NULL REFERENCES doctors(id)  ON UPDATE CASCADE,
+  patient_id   BIGINT NOT NULL REFERENCES patients(id) ON UPDATE CASCADE,
+	patient_name TEXT NOT NULL,
+  "date"       TIMESTAMPTZ NOT NULL,  -- дата/время приёма
+  place        TEXT        NOT NULL,  -- место (кабинет/домашний визит)
+  symptoms     TEXT,                  -- жалобы/симптомы
+  description  TEXT                  -- примечания врача
 );
 
 -- ====== Диагнозы на приёме (N:M) ======

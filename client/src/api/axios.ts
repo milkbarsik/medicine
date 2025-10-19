@@ -2,7 +2,7 @@ import axios, { type AxiosResponse } from "axios";
 import type { IUserData } from "./types";
 
 export const $authClient = axios.create({
-	baseURL: 'http://localhost:5050/api/',
+	baseURL: '/api/',
 	withCredentials: true
 })
 
@@ -22,7 +22,7 @@ $authClient.interceptors.response.use( (config) => {
 	if (error.response.status == 401 && error.config && !error.config._isRetry) {
 		originalRequest._isRetry = true;
 		try {
-			const response: AxiosResponse<IUserData> = await axios.get(`http://localhost:5050/api/refresh`, {withCredentials: true});
+			const response: AxiosResponse<IUserData> = await axios.get(`/api/refresh`, {withCredentials: true});
 			localStorage.setItem('token', response.data.accessToken);
 			return $authClient.request(originalRequest);
 		} catch (e) {

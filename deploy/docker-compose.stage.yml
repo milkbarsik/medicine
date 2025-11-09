@@ -1,4 +1,4 @@
-  GNU nano 7.2                                   docker-compose.stage.yml                                            version: "3"
+version: "3"
 
 services:
   db:

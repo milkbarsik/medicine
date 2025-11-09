@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  server:
+    build: ./server
+    image: ${REGISTRY}/medicine-server:${TAG}
+
+  client:
+    build: ./client
+    image: ${REGISTRY}/medicine-client:${TAG}

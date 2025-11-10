@@ -17,7 +17,7 @@ services:
       retries: 10
 
   server:
-    image: milkbarsik/medicine-server:dev
+    image: ${IMAGE_SERVER}
     container_name: server
     environment:
       NODE_ENV: production
@@ -32,7 +32,7 @@ services:
       - "5050"
 
   client:
-    image: milkbarsik/medicine-client:dev
+    image: ${IMAGE_CLIENT}
     restart: unless-stopped
     container_name: client
     ports:

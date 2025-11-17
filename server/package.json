@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "nodemon index.ts",
     "build": "tsup ./index.ts --format cjs --platform node --target node18 --sourcemap --minify --no-splitting --treeshake --out-dir dist --clean",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+		"lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.9",
@@ -24,14 +26,18 @@
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.5.0",
     "@types/pg": "^8.15.5",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
     "nodemon": "^3.1.10",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.46.4"
   }
 }

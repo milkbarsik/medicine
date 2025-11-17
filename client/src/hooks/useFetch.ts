@@ -12,7 +12,7 @@ type UseFetchReturn = {
   fetching: () => Promise<void>;
 };
 
-export function useFetch (foo: () => Promise<any>): UseFetchReturn {
+export function useFetch (foo: () => Promise<unknown>): UseFetchReturn {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<error>({message: '', status: undefined});
 

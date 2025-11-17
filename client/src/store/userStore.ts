@@ -10,7 +10,7 @@ type Tauth = {
 	setUser: (user: TUser) => void;
 	login: (email: string, password: string) => Promise<IUserData>;
 	refresh: () =>Promise<AxiosResponse<IUserData>>;
-	logOut: () => Promise<any>;
+	logOut: () => Promise<unknown>;
 }
 
 export const useAuth = create<Tauth>((set) => ({

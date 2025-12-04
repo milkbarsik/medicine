@@ -27,6 +27,7 @@ export default defineConfig({
   //   globals: true,                  // чтобы можно было писать describe/it/expect без импорта
   //   setupFiles: "./src/setupTests.ts", // файл, который подключается перед тестами
   // },
+// @ts-ignore 
 	test: {
     globals: true,
     environment: 'jsdom',

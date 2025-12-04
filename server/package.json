@@ -10,10 +10,12 @@
     "build": "tsup ./index.ts --format cjs --platform node --target node18 --sourcemap --minify --no-splitting --treeshake --out-dir dist --clean",
     "start": "node dist/index.js",
 		"lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix"
+    "lint:fix": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "test": "vitest"
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.9",
+    "@types/supertest": "^6.0.3",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -23,7 +25,9 @@
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.10",
     "pg": "^8.16.3",
-    "ts-node": "^10.9.2"
+    "supertest": "^7.1.4",
+    "ts-node": "^10.9.2",
+    "vitest": "^4.0.15"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -31,7 +35,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.5.0",
+    "@types/node": "^24.10.1",
     "@types/pg": "^8.15.5",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",

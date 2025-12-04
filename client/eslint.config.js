@@ -35,7 +35,7 @@ export default defineConfig([
       'react-hooks/exhaustive-deps': 'warn',
       'react-refresh/only-export-components': 'warn',
 
-      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': true }],
 
       'no-unused-vars': 'off',

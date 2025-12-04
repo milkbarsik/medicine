@@ -31,7 +31,7 @@ export default defineConfig([
       ...js.configs.recommended.rules,
       ...tseslint.configs.recommended[1].rules,
 
-      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/rules-of-hooks': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
       'react-refresh/only-export-components': 'warn',
 

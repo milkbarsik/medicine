@@ -6,7 +6,7 @@
 -- DROP TABLE IF EXISTS doctors             CASCADE;
 -- DROP TABLE IF EXISTS patients            CASCADE;
 
-CREAT TABLE doctors (
+CREATE TABLE doctors (
   id          BIGSERIAL PRIMARY KEY,
   "login"     TEXT UNIQUE NOT NULL,
   "password"  TEXT        NOT NULL,
@@ -16,7 +16,7 @@ CREAT TABLE doctors (
 );
 
 CREATE TABLE tokens (
-  id SERIAL PRIMARY KEYYY,
+  id SERIAL PRIMARY KEY,
   doctor_id INT NOT NULL,
   refresh_token TEXT UNIQUE NOT NULL,
   FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE

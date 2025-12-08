@@ -1,4 +1,3 @@
-// src/api/services.test.ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // 1) Мокаем axios-инстанс ($authClient) ОДИН раз

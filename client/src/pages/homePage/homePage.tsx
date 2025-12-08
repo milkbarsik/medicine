@@ -7,7 +7,7 @@ const HomePage = () => {
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.textContainer}>
-				<h1>Welcome, bad work!</h1>
+				<h1>Welcome, good work!</h1>
 				<h5>And remember, Hippocrates is watching over you.</h5>
 			</div>
 			<main className={styles.mainBlock}>

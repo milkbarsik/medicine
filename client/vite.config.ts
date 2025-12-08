@@ -22,11 +22,6 @@ const parseTsConfigPaths = (paths: Record<string, string[]>): Record<string, str
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-	// test: {
-  //   environment: "jsdom",           // нужно для DOM в тестах
-  //   globals: true,                  // чтобы можно было писать describe/it/expect без импорта
-  //   setupFiles: "./src/setupTests.ts", // файл, который подключается перед тестами
-  // },
 // @ts-ignore 
 	test: {
     globals: true,

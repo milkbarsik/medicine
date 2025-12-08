@@ -8,7 +8,7 @@ class DiseaseService implements IDiseaseService {
 			const disease = await db.query('select * from disease');
 			return disease.rows;
 		} catch (e) {
-			throw new Error('no Disease')
+			throw new Error('Disease not found')
 		}
 	};
 

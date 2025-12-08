@@ -1,7 +1,6 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import postgresql from 'eslint-plugin-postgresql';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
@@ -42,24 +41,6 @@ export default defineConfig([
 
 			'@typescript-eslint/no-explicit-any': 'warn',
 			'@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': true }],
-    },
-  },
-	{
-    files: ['**/*.sql'], // путь под себя, можно '**/*.sql'
-
-    // рекомендуемый конфиг плагина
-    ...postgresql.configs.recommended,
-
-    // если хочешь явную настройку — так:
-    languageOptions: {
-      parser: postgresql.configs.recommended.languageOptions.parser,
-    },
-    plugins: {
-      postgresql,
-    },
-    rules: {
-      'postgresql/no-syntax-error': 'warn',
-      'postgresql/require-limit': 'warn',
     },
   },
 ]);

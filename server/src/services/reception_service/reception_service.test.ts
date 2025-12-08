@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// 1. Мокаем db ДО импортов
+// мокаем db
 vi.mock("../../../db", () => {
   const query = vi.fn();
   return {
@@ -8,7 +8,6 @@ vi.mock("../../../db", () => {
   };
 });
 
-// 2. Только потом импортируем сервис
 import db from "../../../db";
 import reseptionService from "./reception_service";
 import ApiError from "../../exceptions/apiError";
@@ -43,36 +42,35 @@ describe("ReceptionService", () => {
     };
 
     dbQuery
-      .mockResolvedValueOnce({ rows: [diseaseRow] }) // SELECT disease
-      .mockResolvedValueOnce({ rows: [medicineRow] }) // SELECT medicine
-      .mockResolvedValueOnce({ rows: [receptionRow] }); // INSERT reseptions ... RETURNING *
+      .mockResolvedValueOnce({ rows: [diseaseRow] }) // select disease
+      .mockResolvedValueOnce({ rows: [medicineRow] }) // select medicine
+      .mockResolvedValueOnce({ rows: [receptionRow] }); // insert reseptions 
 
     const res = await reseptionService.postReception(basePayload);
 
     expect(dbQuery).toHaveBeenCalledTimes(3);
 
-    // Последний вызов — INSERT с нужными параметрами
     const lastCall = dbQuery.mock.calls[2];
     const params = lastCall[1];
 
 		expect(params).toEqual([
-			basePayload.doctor_id,              // 777
-			basePayload.patient_id,             // 123
-			basePayload.patient_name,           // "Ivan"
-			basePayload.date,                   // "2025-01-01"
-			basePayload.place,                  // "Clinic 1"
-			basePayload.symptoms,               // "кашель"
-			basePayload.description,            // "описание"
-			basePayload.disease_id,             // 10
-			basePayload.medicine_id,            // 1
-			basePayload.prescription_description, // "по 1 таб."
+			basePayload.doctor_id,             
+			basePayload.patient_id,            
+			basePayload.patient_name,         
+			basePayload.date,                   
+			basePayload.place,                  
+			basePayload.symptoms,              
+			basePayload.description,            
+			basePayload.disease_id,          
+			basePayload.medicine_id,            
+			basePayload.prescription_description, 
 		]);
 
     expect(res).toEqual(receptionRow);
   });
 
   it("postReception: бросает ApiError.NotFound, если болезнь не найдена", async () => {
-    // 1-й запрос — болезнь, вернул пусто
+    // 1й запрос - болезнь
     dbQuery.mockResolvedValueOnce({ rows: [] });
 
     const promise = reseptionService.postReception(basePayload);
@@ -82,7 +80,6 @@ describe("ReceptionService", () => {
       message: "Disease not found",
     });
 
-    // дальше запросов быть не должно
     expect(dbQuery).toHaveBeenCalledTimes(1);
   });
 
@@ -110,7 +107,7 @@ describe("ReceptionService", () => {
     dbQuery
       .mockResolvedValueOnce({ rows: [diseaseRow] }) // disease ok
       .mockResolvedValueOnce({ rows: [medicineRow] }) // medicine ok
-      .mockRejectedValueOnce(new Error("insert error")); // падение на INSERT
+      .mockRejectedValueOnce(new Error("insert error")); 
 
     const promise = reseptionService.postReception(basePayload);
 

@@ -1,7 +1,6 @@
-// src/api/services.test.ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// 1) Мокаем axios-инстанс ($authClient) ОДИН раз
+// мокаем axios-инстанс ($authClient) 
 vi.mock("./axios", () => {
   const get = vi.fn();
   const post = vi.fn();
@@ -10,7 +9,7 @@ vi.mock("./axios", () => {
   };
 });
 
-// 2) Импортируем сервисы после моков
+// импортируем сервисы
 import {
   diseaseService,
   authUser,
@@ -22,15 +21,12 @@ import {
 import { $authClient } from "./axios";
 import type { Patient, Medicine, IReceptionOnPost } from "./types";
 
-// Перед каждым тестом очищаем вызовы моков
 beforeEach(() => {
   ( $authClient.get as any ).mockReset();
   ( $authClient.post as any ).mockReset();
 });
 
-//
-// DiseaseService
-//
+// disease service
 describe("DiseaseService", () => {
   it("getDiseases делает GET 'disease' и возвращает data", async () => {
     ( $authClient.get as any ).mockResolvedValue({
@@ -56,9 +52,7 @@ describe("DiseaseService", () => {
   });
 });
 
-//
-// SicksService
-//
+// sicks service
 describe("SicksService", () => {
   it("getSicksOfDisease делает GET на нужный путь", async () => {
     ( $authClient.get as any ).mockResolvedValue({
@@ -83,9 +77,7 @@ describe("SicksService", () => {
   });
 });
 
-//
-// PatientsService
-//
+// patients service
 describe("PatientsService", () => {
   it("getPatients делает GET 'patients'", async () => {
     ( $authClient.get as any ).mockResolvedValue({
@@ -130,9 +122,7 @@ describe("PatientsService", () => {
   });
 });
 
-//
-// MedicineService
-//
+// medicine service
 describe("MedicineService", () => {
   it("getMedicines делает GET 'medicines'", async () => {
     ( $authClient.get as any ).mockResolvedValue({
@@ -175,9 +165,7 @@ describe("MedicineService", () => {
   });
 });
 
-//
-// ReceptionService
-//
+// reception service
 describe("ReceptionService", () => {
   it("postReception делает POST 'reseptions' с телом", async () => {
     ( $authClient.post as any ).mockResolvedValue({
@@ -223,9 +211,7 @@ describe("ReceptionService", () => {
   });
 });
 
-//
-// AuthUser
-//
+// Auth user
 describe("AuthUser", () => {
   it("login делает POST /login с login/password и возвращает data", async () => {
     ( $authClient.post as any ).mockResolvedValue({

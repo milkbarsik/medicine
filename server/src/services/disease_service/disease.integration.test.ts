@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import request from "supertest";
 
-// 1. Мокаем db ТАК ЖЕ, как в юнит-тестах сервисов
+// мокаем db 
 vi.mock("../../../db", () => {
   const query = vi.fn();
   return {
@@ -10,14 +10,14 @@ vi.mock("../../../db", () => {
   };
 });
 
-// 2. Импортируем db и app после моков
+// импортируем db и app после моков
 import db from "../../../db";
 import { app } from "../../../index";
 
 type DbMock = ReturnType<typeof vi.fn>;
 const dbQuery = db.query as unknown as DbMock;
 
-describe("GET /api/disease (integration, with mocked DB)", () => {
+describe("GET /api/disease", () => {
   beforeEach(() => {
     dbQuery.mockReset();
   });
@@ -52,7 +52,6 @@ describe("GET /api/disease (integration, with mocked DB)", () => {
     expect(dbQuery).toHaveBeenCalledTimes(1);
     expect(dbQuery).toHaveBeenCalledWith("select * from disease");
 
-    // фактическое поведение твоего кода — 200 + []
     expect(res.status).toBe(200);
     expect(res.body).toEqual([]);
   });

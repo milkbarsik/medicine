@@ -36,7 +36,6 @@ describe("PatientsService", () => {
 
     const res = await PatientsService.getOnePatient(5);
 
-    // SQL беру из самого сервиса — поправь, если строка у тебя другая
     expect(dbQuery).toHaveBeenCalledWith(
       "select * from patients where id = $1",
       [5]

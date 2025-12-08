@@ -1,33 +1,28 @@
-// src/pages/diseasesPage/diseassesForm/diseasesForm.test.tsx
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DiseaseForm from "./diseasesForm";
 
-// ========================
-// 1. Моки без переменных
-// ========================
-
-// MyInput → просто input
+// MyInput => просто input
 vi.mock("../../../components/input/myInput", () => ({
   default: (props: any) => <input data-testid={props.name} {...props} />,
 }));
 
-// мок стора с функцией, объявленной прямо внутри фабрики
+// мок стора
 vi.mock("../../../store/diseasesStore", () => ({
   useDiseasesStore: () => ({
-    addDisease: vi.fn(), // безопасно
+    addDisease: vi.fn(),
   }),
 }));
 
-// мок сервиса без внешних переменных!
+// мок сервиса
 vi.mock("../../../api/services", () => ({
   diseaseService: {
     postDisease: vi.fn().mockResolvedValue({ id: 1, title: "Грипп" }),
   },
 }));
 
-// мок useFetch без внешних переменных
+// мок useFetch
 vi.mock("../../../hooks/useFetch", () => ({
   useFetch: (cb: () => any) => {
     const [error, setError] = require("react").useState({ message: "" });
@@ -36,7 +31,7 @@ vi.mock("../../../hooks/useFetch", () => ({
       try {
         await cb();
       } catch (err: any) {
-        setError({ message: err.message }); // 💥 вызывает перерисовку компонента
+        setError({ message: err.message }); 
       }
     };
 
@@ -48,11 +43,7 @@ vi.mock("../../../hooks/useFetch", () => ({
   },
 }));
 
-
-// ========================
-// 2. Тесты
-// ========================
-
+// тесты
 describe("DiseaseForm", () => {
   it("рендерит заголовок и кнопку", () => {
     render(<DiseaseForm />);
@@ -79,7 +70,7 @@ describe("DiseaseForm", () => {
     const button = screen.getByRole("button", { name: /добавить/i });
     await userEvent.click(button);
 
-    // вытаскиваем мок из фабрики
+    // вытаскиваем мок
     const { diseaseService } = await import("../../../api/services");
 
     expect(diseaseService.postDisease).toHaveBeenCalledWith({ title: "Грипп" });

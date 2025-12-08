@@ -1,16 +1,15 @@
-// DateBlock.test.tsx
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DateBlock from "./dateBlock";
 import { sicksService } from "../../../api/services";
 
-// Мокаем MyInput: просто обычный input
+// мокаем MyInput => просто обычный input
 vi.mock("../../../components/input/myInput", () => ({
   default: (props: any) => <input data-testid="date-input" {...props} />,
 }));
 
-// Мокаем useInput: хук вернёт фиксированное значение даты
+// мокаем useInput
 vi.mock("../../../hooks/useInput", () => ({
   __esModule: true,
   default: () => ({
@@ -19,18 +18,18 @@ vi.mock("../../../hooks/useInput", () => ({
   }),
 }));
 
-// Мокаем сервис, который ходит на бэкенд
+// мокаем сервис, который ходит на бэк
 vi.mock("../../../api/services", () => ({
   sicksService: {
     getSicksOfDate: vi.fn().mockResolvedValue([
       { id: 1 },
       { id: 2 },
-      { id: 3 }, // всего 3 записи
+      { id: 3 },
     ]),
   },
 }));
 
-// Мокаем useFetch: он просто вызывает переданный колбэк
+// мокаем useFetch, он просто вызывает переданный колбэк
 vi.mock("../../../hooks/useFetch", () => ({
   useFetch: (cb: () => Promise<void>) => ({
     fetching: async () => {
@@ -52,7 +51,6 @@ describe("DateBlock", () => {
     // проверяем, что сервис вызвался с нужной датой
     expect(sicksService.getSicksOfDate).toHaveBeenCalledWith("2025-01-01");
 
-    // длина массива = 3, значит в результате на экране должно быть '3'
     expect(await screen.findByText("3")).toBeInTheDocument();
   });
 });

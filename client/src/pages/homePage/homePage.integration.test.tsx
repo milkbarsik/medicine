@@ -1,16 +1,13 @@
-// src/pages/homePage/homePage.integration.test.tsx
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-// ===== Моки нижнего уровня =====
-
-// MyInput → обычный <input>, чтобы RTL мог с ним работать
+// MyInput => обычный <input>
 vi.mock("../../components/input/myInput", () => ({
   default: (props: any) => <input {...props} />,
 }));
 
-// useInput → простой хук на useState, чтобы можно было реально печатать
+// useInput => простой хук на useState
 vi.mock("../../hooks/useInput", () => {
   return {
     __esModule: true,
@@ -25,7 +22,7 @@ vi.mock("../../hooks/useInput", () => {
   };
 });
 
-// zustand-стор болезней
+// стор болезней
 vi.mock("../../store/diseasesStore", () => ({
   useDiseasesStore: () => ({
     diseases: [
@@ -35,17 +32,17 @@ vi.mock("../../store/diseasesStore", () => ({
   }),
 }));
 
-// --- Мок сервисов: ВСЁ внутри фабрики, без внешних переменных ---
+// мок сервисов
 vi.mock("../../api/services", () => {
   const mockGetSicksOfDate = vi.fn().mockResolvedValue([
     { id: 1 },
     { id: 2 },
-    { id: 3 }, // 3 вызова по дате
+    { id: 3 }, 
   ]);
 
   const mockGetSicksOfDisease = vi.fn().mockResolvedValue([
     { id: 1 },
-    { id: 2 }, // 2 заболевших по болезни
+    { id: 2 }, 
   ]);
 
   return {
@@ -57,7 +54,7 @@ vi.mock("../../api/services", () => {
   };
 });
 
-// useFetch → "реальная" обёртка: isLoading + error + fetching
+// useFetch
 vi.mock("../../hooks/useFetch", () => {
   return {
     __esModule: true,
@@ -83,17 +80,16 @@ vi.mock("../../hooks/useFetch", () => {
   };
 });
 
-// ВАЖНО: импортируем HomePage только ПОСЛЕ всех vi.mock()
+// импортируем HomePage только после всех vi.mock()
 import HomePage from "./homePage";
 import { useState } from "react";
 
-// ===== Сами тесты =====
+// тесты
 
 describe("HomePage (integration)", () => {
   it("отображает заголовки и позволяет искать по дате и по болезни", async () => {
     render(<HomePage />);
 
-    // Приветственный текст
     expect(
       screen.getByRole("heading", { name: /welcome, good work!/i })
     ).toBeInTheDocument();
@@ -101,7 +97,7 @@ describe("HomePage (integration)", () => {
       screen.getByText(/hippocrates is watching over you\./i)
     ).toBeInTheDocument();
 
-    // ---- 1. Поиск по дате (DateBlock) ----
+    // поиск по дате 
     const dateInput = screen.getByLabelText(
       /выберите дату/i
     ) as HTMLInputElement;
@@ -115,17 +111,16 @@ describe("HomePage (integration)", () => {
 
     await userEvent.click(dateSearchButton);
 
-    // достаём мокнутый сервис и смотрим, как он был вызван
+    // достаем мокнутый сервис и смотрим, как он был вызван
     const { sicksService } = await import("../../api/services");
 
     await waitFor(() => {
       expect(sicksService.getSicksOfDate).toHaveBeenCalledWith("2025-01-01");
     });
 
-    // и появления числа 3 в DOM
     expect(await screen.findByText("3")).toBeInTheDocument();
 
-    // ---- 2. Поиск по названию болезни (DiseaseBlock) ----
+    // поиск по названию болезни
 		const [diseaseInput] = screen.getAllByLabelText(
 			/напишите название болезни/i
 		) as HTMLInputElement[];

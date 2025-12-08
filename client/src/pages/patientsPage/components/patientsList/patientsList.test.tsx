@@ -1,9 +1,8 @@
-// patientsList.test.tsx
 import { describe, it, expect, vi } from "vitest";
 import { render } from "@testing-library/react";
 import PatientsList from "./patientsList";
 
-// соберём информацию о пропсах, с которыми рендерится PatientsItem
+// информация о пропсах
 const mockPatientsItemProps = vi.fn();
 
 // мок PatientsItem
@@ -41,7 +40,6 @@ describe("PatientsList", () => {
 
     render(<PatientsList setPatient={setPatient} currentId={2} />);
 
-    // PatientsItem должен вызваться два раза
     expect(mockPatientsItemProps).toHaveBeenCalledTimes(2);
 
     const firstCall = mockPatientsItemProps.mock.calls[0][0];

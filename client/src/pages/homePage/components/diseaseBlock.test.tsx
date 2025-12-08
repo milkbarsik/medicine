@@ -1,16 +1,15 @@
-// DiseaseBlock.test.tsx
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DiseaseBlock from "./diseaseBlock";
 import { sicksService } from "../../../api/services";
 
-// Мокаем MyInput
+// мокаем MyInput
 vi.mock("../../../components/input/myInput", () => ({
   default: (props: any) => <input data-testid="disease-input" {...props} />,
 }));
 
-// Мокаем useInput: здесь поле ввода "знает" болезнь "Грипп"
+// мокаем useInput
 vi.mock("../../../hooks/useInput", () => ({
   __esModule: true,
   default: () => ({
@@ -19,7 +18,7 @@ vi.mock("../../../hooks/useInput", () => ({
   }),
 }));
 
-// Мокаем zustand-стор с болезнями
+// мокаем стор с болезнями
 vi.mock("../../../store/diseasesStore", () => ({
   useDiseasesStore: () => ({
     diseases: [
@@ -29,17 +28,17 @@ vi.mock("../../../store/diseasesStore", () => ({
   }),
 }));
 
-// Мокаем сервис
+// мокаем сервис
 vi.mock("../../../api/services", () => ({
   sicksService: {
     getSicksOfDisease: vi.fn().mockResolvedValue([
       { id: 1 },
-      { id: 2 }, // две записи
+      { id: 2 }, 
     ]),
   },
 }));
 
-// Мокаем useFetch
+// мокаем useFetch
 vi.mock("../../../hooks/useFetch", () => ({
   useFetch: (cb: () => Promise<void>) => ({
     fetching: async () => {
@@ -58,10 +57,8 @@ describe("DiseaseBlock", () => {
 
     await userEvent.click(button);
 
-    // ожидаем, что сервис вызвали с id болезни 'Грипп', т.е. 10
     expect(sicksService.getSicksOfDisease).toHaveBeenCalledWith(10);
 
-    // вернули массив длиной 2, значит увидим '2'
     expect(await screen.findByText("2")).toBeInTheDocument();
   });
 });

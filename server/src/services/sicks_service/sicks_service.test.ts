@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// 1. Мокаем db
+// мокаем db
 vi.mock("../../../db", () => {
   const query = vi.fn();
   return {
@@ -8,7 +8,6 @@ vi.mock("../../../db", () => {
   };
 });
 
-// 2. Импорты после моков
 import db from "../../../db";
 import sicksService from "./sicks_service";
 import ApiError from "../../exceptions/apiError";

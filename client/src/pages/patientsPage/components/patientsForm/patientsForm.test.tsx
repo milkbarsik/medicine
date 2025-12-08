@@ -1,21 +1,20 @@
-// patientsForm.test.tsx
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import PatientsForm from "./patientsForm";
 
-// Мокаем MyInput, чтобы не тянуть реальные стили/логику
+// мокаем MyInput
 vi.mock("../../../../components/input/myInput", () => ({
   default: (props: any) => <input data-testid={props.name} {...props} />,
 }));
 
-// Мокаем сторадж, чтобы не было настоящего zustand
+// мокаем стор
 vi.mock("../../../../store/patientsStore", () => ({
   usePatientsStore: () => ({
     addPatients: vi.fn(),
   }),
 }));
 
-// Мокаем useFetch так, чтобы НИКАКОЙ async-логики не запускалось
+// мокаем useFetch
 vi.mock("../../../../hooks/useFetch", () => ({
   useFetch: () => ({
     fetching: vi.fn(),
@@ -24,7 +23,7 @@ vi.mock("../../../../hooks/useFetch", () => ({
   }),
 }));
 
-// Мокаем сервис, хотя он даже не должен вызываться в этом тесте
+// мокаем сервис
 vi.mock("../../../../api/services", () => ({
   patientsService: {
     postPatients: vi.fn(),

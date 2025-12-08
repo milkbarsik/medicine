@@ -1,7 +1,6 @@
-// src/services/auth_service/auth_service.test.ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// ----- mock db -----
+// мок бд
 vi.mock("../../../db", () => {
   const query = vi.fn();
   return {
@@ -9,7 +8,7 @@ vi.mock("../../../db", () => {
   };
 });
 
-// ----- mock bcrypt (ВАЖНО: с default) -----
+// мок bcrypt
 vi.mock("bcrypt", () => {
   const compare = vi.fn();
   const hash = vi.fn();
@@ -18,7 +17,7 @@ vi.mock("bcrypt", () => {
   };
 });
 
-// ----- mock tokenService как именованный экспорт -----
+// мок tokenService 
 vi.mock("../token_service/token_service", () => {
   const tokenService = {
     generateTokens: vi.fn(),
@@ -28,7 +27,7 @@ vi.mock("../token_service/token_service", () => {
   return { tokenService };
 });
 
-// ----- импорты после моков -----
+// импорты после моков
 import db from "../../../db";
 import bcrypt from "bcrypt";
 import { tokenService } from "../token_service/token_service";
@@ -111,13 +110,12 @@ describe("AuthService.login", () => {
 
 describe("AuthService.logOut", () => {
   it("делегирует удаление токена tokenService.removeToken", async () => {
-    // если в логике логАута ничего не возвращается,
-    // нам не важно, что возвращает removeToken
+
     (tokenService.removeToken as DbMock).mockResolvedValue(undefined);
 
     const res = await userService.logOut("refresh-token");
 
     expect(tokenService.removeToken).toHaveBeenCalledWith("refresh-token");
-    expect(res).toBeUndefined(); // <-- вот тут меняем ожидание
+    expect(res).toBeUndefined(); 
   });
 });

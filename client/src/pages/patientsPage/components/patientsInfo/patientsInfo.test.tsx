@@ -1,12 +1,8 @@
-// src/pages/patientsPage/components/patientsInfo/patientsInfo.test.tsx
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import PatientsInfo from "./patientsInfo";
 
-// НИКАКИХ моков, вообще.
-// Компонент просто возьмёт реальный usePatientsStore.
-// Для теста это нормально: нам важно лишь, что он монтируется.
-
+// никаких моков
 describe("PatientsInfo", () => {
   it("рендерит заголовок блока информации о пациенте", () => {
     render(<PatientsInfo id={1} />);

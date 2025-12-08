@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// СНАЧАЛА мок db — ТОЛЬКО фабрика, без внешних переменных
+// мок db 
 vi.mock("../../../db", () => {
   const query = vi.fn();
   return {
@@ -8,7 +8,6 @@ vi.mock("../../../db", () => {
   };
 });
 
-// потом уже импортируем то, что тестируем
 import db from "../../../db";
 import DiseaseService from "./disease_service";
 
@@ -37,7 +36,7 @@ describe("DiseaseService", () => {
 		dbQuery.mockRejectedValue(err);
 
 		await expect(DiseaseService.getDisease())
-			.rejects.toThrow("Disease not found"); // ← сообщение, которое реально кидает сервис
+			.rejects.toThrow("Disease not found"); 
 	});
 
   it("postDisease делает INSERT и возвращает созданную болезнь", async () => {
@@ -61,6 +60,6 @@ describe("DiseaseService", () => {
 
 		await expect(
 			DiseaseService.postDisease({ id: 10, title: "ОРВИ" })
-		).rejects.toThrow("Disease not created"); // ← сообщение из реализации
+		).rejects.toThrow("Disease not created"); 
 	});
 });

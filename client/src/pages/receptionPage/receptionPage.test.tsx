@@ -1,4 +1,3 @@
-// src/pages/receptionPage/receptionPage.test.tsx
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -8,12 +7,12 @@ import ReceptionPage from "./receptionPage";
 const mockResetReception = vi.fn();
 const mockSetKeyOFReception = vi.fn();
 
-// MyInput → обычный input
+// MyInput => обычный <input>
 vi.mock("../../components/input/myInput", () => ({
   default: (props: any) => <input data-testid={props.name} {...props} />,
 }));
 
-// сторы лекарств и диагнозов — просто заглушки
+// сторы лекарств и диагнозов
 vi.mock("../../store/medicinesStore", () => ({
   useMedicinesStore: () => ({
     medicines: [],
@@ -26,7 +25,7 @@ vi.mock("../../store/diseasesStore", () => ({
   }),
 }));
 
-// стор приёма
+// стор приема
 vi.mock("../../store/receptionStore", () => ({
   useReceptionStore: () => ({
     reception: {
@@ -52,10 +51,10 @@ vi.mock("../../store/userStore", () => ({
   }),
 }));
 
-// useFetch — просто заглушка; сервисы не трогаем вообще
+// useFetch 
 vi.mock("../../hooks/useFetch", () => ({
   useFetch: () => ({
-    fetching: vi.fn(), // мы даже не будем проверять его вызов
+    fetching: vi.fn(), 
     isLoading: false,
     error: { message: "" },
   }),
